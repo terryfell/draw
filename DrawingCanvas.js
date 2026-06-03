@@ -67,77 +67,31 @@ function getPos(e) {
 }
 
 //EVENT LISTENERS
-
-canvas.addEventListener("mousedown", function(e){
-    const pos = getPos(e);
+canvas.addEventListener("pointerdown", function(e){
     isDrawing = true;
     ctx.beginPath();
     ctx.strokeStyle = picker.color.hexString;
     ctx.lineWidth = document.querySelector("#brushSize").value;
-    ctx.moveTo(pos.x, pos.y);
+    ctx.moveTo(e.offsetX, e.offsetY);
 });
 
-canvas.addEventListener("mousemove", function(e){
-
+canvas.addEventListener("pointermove", function(e){
     if(!isDrawing) return;
-
-    const pos = getPos(e);
-
-    ctx.lineTo(pos.x, pos.y);
-
-    ctx.strokeStyle = picker.color.hexString;
-    ctx.lineWidth = document.querySelector("#brushSize").value;
-
-    ctx.stroke();
-
-});
-
-canvas.addEventListener("mouseup", function(){
-
-    isDrawing = false;
-
-    ctx.beginPath();
-
-});
-
-clearBtn.addEventListener("click", function() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-});
-
-
-canvas.addEventListener("mouseleave", function(){
-
-    isDrawing = false;
-
-    ctx.beginPath();
-
-});
-
-canvas.addEventListener("touchstart", function(e){
-    e.preventDefault();
-    const pos = getPos(e);
-    isDrawing = true;
-    ctx.beginPath();
-    ctx.strokeStyle = picker.color.hexString;
-    ctx.lineWidth = document.querySelector("#brushSize").value;
-    ctx.moveTo(pos.x, pos.y);
-}, { passive: false });
-
-canvas.addEventListener("touchmove", function(e){
-    e.preventDefault();
-    if(!isDrawing) return;
-    const pos = getPos(e);
-    ctx.lineTo(pos.x, pos.y);
+    ctx.lineTo(e.offsetX, e.offsetY);
     ctx.strokeStyle = picker.color.hexString;
     ctx.lineWidth = document.querySelector("#brushSize").value;
     ctx.stroke();
-}, { passive: false });
+});
 
-canvas.addEventListener("touchend", function(){
+canvas.addEventListener("pointerup", function(){
     isDrawing = false;
     ctx.beginPath();
-}, { passive: false });
+});
 
+canvas.addEventListener("pointerleave", function(){
+    isDrawing = false;
+    ctx.beginPath();
+});
 submitBtn.addEventListener("click", async function() {
 
     const dataURL =
