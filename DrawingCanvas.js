@@ -121,7 +121,7 @@ canvas.addEventListener("touchstart", function(e){
     ctx.strokeStyle = picker.color.hexString;
     ctx.lineWidth = document.querySelector("#brushSize").value;
     ctx.moveTo(pos.x, pos.y);
-});
+}, { passive: false });
 
 canvas.addEventListener("touchmove", function(e){
     e.preventDefault();
@@ -131,12 +131,12 @@ canvas.addEventListener("touchmove", function(e){
     ctx.strokeStyle = picker.color.hexString;
     ctx.lineWidth = document.querySelector("#brushSize").value;
     ctx.stroke();
-});
+}, { passive: false });
 
 canvas.addEventListener("touchend", function(){
     isDrawing = false;
     ctx.beginPath();
-});
+}, { passive: false });
 
 submitBtn.addEventListener("click", async function() {
 
