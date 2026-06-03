@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+    <title>Gallery</title>
+
+    <style>
+
+#gallery{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+}
+
+#gallery img{
+    width:400px;
+    image-rendering:pixelated;
+    border:1px solid black;
+    cursor: pointer;
+}
+
+.tooltip {
+    position: fixed;
+    background: #dddddd;
+    padding: 8px 12px;
+    font-size: 20px;
+    pointer-events: none;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.tooltip-label {
+    font-family: "nunito";
+    font-size: 20px;
+    letter-spacing: 0.5px;
+    color: #000000;
+}
+
+.tooltip-date {
+    font-weight: 600;
+    color: #000000;
+    font-family:"nunito";
+}
+
+    </style>
+</head>
+<body>
+
+<div id="gallery"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+    const gallery = document.getElementById("gallery");
+
+    const db = window.supabase.createClient(
+        "https://ewikczkhfokqjordmjvz.supabase.co",
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV3aWtjemtoZm9rcWpvcmRtanZ6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA0OTY1ODgsImV4cCI6MjA5NjA3MjU4OH0.Z3TllaO0uQj0h3ZHRpx_Bm2dkZjaT6Bj3lwMRo4MKQ8"
+    );
+
+    async function loadDrawings() {
+        const { data, error } = await db
+            .from("drawings")
+            .select("*")
+            .order("created_at", { ascending: false });
+
+        console.log(data);
+        console.log(error);
+
+        data.forEach((drawing) => {
+            const img = document.createElement("img");
+            img.src = drawing.image;
+            img.dataset.createdAt = drawing.created_at;
+            img.dataset.tooltipContainer = true;
+            gallery.appendChild(img);
+        });
+
+
+        initTooltip();
+    }
+
+    loadDrawings();
+
+    function initTooltip() {
+        const tooltips = Array.from(document.querySelectorAll('[data-tooltip-container]'));
+
+        tooltips.forEach(tooltip => {
+            tooltip.addEventListener('mouseover', handleMouseOver);
+        });
+
+        function handleMouseOver() {
+            const raw = this.getAttribute('data-created-at');
+            const date = raw ? new Date(raw).toLocaleString('en-GB', {
+                day: '2-digit', month: 'short', year: 'numeric',
+                hour: '2-digit', minute: '2-digit'
+            }) : 'Unknown date';
+
+            const tooltipbox = createTooltipBox(date);
+            handleMouseMove.tooltipbox = tooltipbox;
+            this.addEventListener('mousemove', handleMouseMove);
+            handleMouseLeave.tooltipbox = tooltipbox;
+            handleMouseLeave.element = this;
+            this.addEventListener('mouseleave', handleMouseLeave);
+        }
+
+        const handleMouseLeave = {
+            handleEvent() {
+                this.tooltipbox.remove();
+                this.element.removeEventListener('mousemove', handleMouseMove);
+                this.element.removeEventListener('mouseleave', handleMouseLeave);
+            }
+        };
+
+        const handleMouseMove = {
+            handleEvent(e) {
+                this.tooltipbox.style.top  = e.clientY + 25 + 'px';
+                this.tooltipbox.style.left = e.clientX + 13 + 'px';
+            }
+        };
+
+        function createTooltipBox(dateText) {
+            const tooltip = document.createElement('div');
+            tooltip.classList.add('tooltip');
+            tooltip.innerHTML = `
+                <span class="tooltip-label">Created</span>
+                <span class="tooltip-date">${dateText}</span>
+            `;
+            document.body.appendChild(tooltip);
+            return tooltip;
+        }
+    }
+</script>
+
+</body>
+</html>

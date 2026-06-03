@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>canvas</title>
+    <link rel="stylesheet" href="DrawingCanvas.css">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+
+<body>
+
+        <div class="toolbar">
+
+        <button class="undo">    <i class="fa-solid fa-rotate-left"></i></button>
+
+        <input
+            type="range"
+            min="1"
+            max="6"
+            id="brushSize">
+
+        <button class="colorbutton"></button>
+    </div>
+
+<div id="picker"></div>
+
+    <div class="drawbox">
+
+
+    <canvas id="canvas"></canvas>
+
+    <button class="submit">
+        send anonymously
+    </button>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/@jaames/iro@5/dist/iro.min.js"></script>
+
+<script src="DrawingCanvas.js"></script>
+
+<a href="gallery.html">Go to gsee</a>
+</body>
+
+</html>
