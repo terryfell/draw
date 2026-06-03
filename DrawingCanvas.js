@@ -56,33 +56,34 @@ var ctx = document.querySelector("canvas").getContext("2d");
 
 var isDrawing = false;
 
+function getPos(e) {
+    const rect = canvas.getBoundingClientRect();
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    return {
+        x: clientX - rect.left,
+        y: clientY - rect.top
+    };
+}
+
 //EVENT LISTENERS
 
 canvas.addEventListener("mousedown", function(e){
-    const rect = canvas.getBoundingClientRect();
-
-    const mouseX = e.clientX - rect.left;
-    const mouseY = e.clientY - rect.top;
-isDrawing = true;
-
-ctx.beginPath();
-
-ctx.strokeStyle = picker.color.hexString;
-ctx.lineWidth = document.querySelector("#brushSize").value;
-
-ctx.moveTo(mouseX, mouseY);
+    const pos = getPos(e);
+    isDrawing = true;
+    ctx.beginPath();
+    ctx.strokeStyle = picker.color.hexString;
+    ctx.lineWidth = document.querySelector("#brushSize").value;
+    ctx.moveTo(pos.x, pos.y);
 });
 
 canvas.addEventListener("mousemove", function(e){
 
     if(!isDrawing) return;
 
-    const rect = canvas.getBoundingClientRect();
+    const pos = getPos(e);
 
-    const mouseX = e.clientX - rect.left;
-    const mouseY = e.clientY - rect.top;
-
-    ctx.lineTo(mouseX, mouseY);
+    ctx.lineTo(pos.x, pos.y);
 
     ctx.strokeStyle = picker.color.hexString;
     ctx.lineWidth = document.querySelector("#brushSize").value;
@@ -112,6 +113,31 @@ canvas.addEventListener("mouseleave", function(){
 
 });
 
+canvas.addEventListener("touchstart", function(e){
+    e.preventDefault();
+    const pos = getPos(e);
+    isDrawing = true;
+    ctx.beginPath();
+    ctx.strokeStyle = picker.color.hexString;
+    ctx.lineWidth = document.querySelector("#brushSize").value;
+    ctx.moveTo(pos.x, pos.y);
+});
+
+canvas.addEventListener("touchmove", function(e){
+    e.preventDefault();
+    if(!isDrawing) return;
+    const pos = getPos(e);
+    ctx.lineTo(pos.x, pos.y);
+    ctx.strokeStyle = picker.color.hexString;
+    ctx.lineWidth = document.querySelector("#brushSize").value;
+    ctx.stroke();
+});
+
+canvas.addEventListener("touchend", function(){
+    isDrawing = false;
+    ctx.beginPath();
+});
+
 submitBtn.addEventListener("click", async function() {
 
     const dataURL =
@@ -131,4 +157,3 @@ await db
     console.log(error);
 
 });
-

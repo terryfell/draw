@@ -141,3 +141,7 @@ button{
     cursor:pointer;
 
 }
+
+canvas {
+    touch-action: none;
+}
