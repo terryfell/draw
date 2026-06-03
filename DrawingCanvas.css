@@ -53,22 +53,15 @@ body {
 }
 
 #picker{
-
     position:absolute;
-
     top:50px;
     right:0;
-
     display:none;
-
     background:white;
-
     border:2px solid #111;
-
     padding:10px;
-
     z-index:999;
-
+    pointer-events: none; /* ADD THIS */
 }
 
 .colorbutton{

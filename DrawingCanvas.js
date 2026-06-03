@@ -114,12 +114,6 @@ canvas.addEventListener("mouseleave", function(){
 });
 
 canvas.addEventListener("touchstart", function(e){
-    console.log("TOUCH DETECTED", e.touches[0].clientX, e.touches[0].clientY);
-    e.preventDefault();
-    ...
-}, { passive: false });
-
-canvas.addEventListener("touchstart", function(e){
     e.preventDefault();
     const pos = getPos(e);
     isDrawing = true;
