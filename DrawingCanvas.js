@@ -174,6 +174,3 @@ await db
 
 });
 
-
-//button cooldown
-
