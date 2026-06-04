@@ -100,6 +100,25 @@ canvas{
     cursor:pointer;
 }
 
+.submit:disabled{
+
+    background:#f4f4f4;
+
+    color:#999;
+
+    letter-spacing:1px;
+
+    cursor:not-allowed;
+
+    position:relative;
+
+}
+
+@keyframes cooldown {
+   0% { width: 100%; }
+   100% { width: 0; }
+}
+
 button{
 
     background:#fff;
