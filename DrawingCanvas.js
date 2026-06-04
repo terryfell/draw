@@ -97,6 +97,18 @@ submitBtn.addEventListener("click", async function() {
     const dataURL =
         canvas.toDataURL("image/png");
 
+        submitBtn.disabled = true;
+
+        setTimeout(function() {
+
+    submitBtn.disabled = false;
+
+}, 120000);
+
+const originalText = submitBtn.textContent;
+submitBtn.textContent = "wait 120s";
+
+
 const { data, error } =
 await db
     .from("drawings")
@@ -111,3 +123,7 @@ await db
     console.log(error);
 
 });
+
+
+//button cooldown
+
