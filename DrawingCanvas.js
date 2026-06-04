@@ -46,6 +46,28 @@ colorBtn.addEventListener("click", () => {
 
 var submitBtn = document.querySelector(".submit");
 
+const lastSubmission =
+    localStorage.getItem("lastSubmission");
+
+if (lastSubmission) {
+
+    const elapsedTime =
+        Date.now() - Number(lastSubmission);
+
+    if (elapsedTime < 120000) {
+
+        submitBtn.disabled = true;
+
+        setTimeout(function() {
+
+            submitBtn.disabled = false;
+
+        }, 120000 - elapsedTime);
+
+    }
+
+}
+
 var clearBtn = document.querySelector(".undo");
 
 var canvas = document.querySelector("canvas");
@@ -101,6 +123,11 @@ submitBtn.addEventListener("click", async function() {
         canvas.toDataURL("image/png");
 
     submitBtn.disabled = true;
+
+localStorage.setItem(
+    "lastSubmission",
+    Date.now()
+);
 
     console.log("DISABLED:", submitBtn.disabled);
 });
