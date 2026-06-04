@@ -95,6 +95,18 @@ canvas.addEventListener("pointerleave", function(){
 
 submitBtn.addEventListener("click", async function() {
 
+    console.log("BUTTON CLICKED");
+
+    const dataURL =
+        canvas.toDataURL("image/png");
+
+    submitBtn.disabled = true;
+
+    console.log("DISABLED:", submitBtn.disabled);
+});
+
+submitBtn.addEventListener("click", async function() {
+
     const dataURL =
         canvas.toDataURL("image/png");
 
