@@ -46,6 +46,8 @@ colorBtn.addEventListener("click", () => {
 
 var submitBtn = document.querySelector(".submit");
 
+console.log("saved:", localStorage.getItem("lastSubmission"));
+
 const lastSubmission =
     localStorage.getItem("lastSubmission");
 
@@ -116,6 +118,16 @@ canvas.addEventListener("pointerleave", function(){
 });
 
 submitBtn.addEventListener("click", async function() {
+
+    console.log("before save");
+
+localStorage.setItem(
+    "lastSubmission",
+    Date.now()
+);
+
+console.log("after save");
+console.log(localStorage.getItem("lastSubmission"));
 
     console.log("BUTTON CLICKED");
 
