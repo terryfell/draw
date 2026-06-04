@@ -92,6 +92,7 @@ canvas.addEventListener("pointerleave", function(){
     isDrawing = false;
     ctx.beginPath();
 });
+
 submitBtn.addEventListener("click", async function() {
 
     const dataURL =
@@ -105,8 +106,6 @@ submitBtn.addEventListener("click", async function() {
 
 }, 120000);
 
-const originalText = submitBtn.textContent;
-submitBtn.textContent = "wait 120s";
 
 
 const { data, error } =
